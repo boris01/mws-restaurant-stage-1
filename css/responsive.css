@@ -1,0 +1,27 @@
+#restaurants-list{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#restaurants-list li{
+    margin-left: auto;
+    margin-right: auto;
+    padding: 25px  30px 25px;
+}
+
+.filter-options {
+    padding: 10px;
+    min-height: 50px;
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 744px) {
+    #restaurants-list li{
+        width: 100%
+    }
+}
+@media screen and (min-width: 745px) and (max-width: 1031px) {
+    #restaurants-list li{
+        width: 40%
+    }
+}
