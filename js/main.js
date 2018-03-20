@@ -137,11 +137,35 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
+  
+  const picture = document.createElement('picture');
+  picture.className = 'restaurant-img';
+
+  const source300 = document.createElement('source');
+  source300.setAttribute('media', '(max-width:300px)');
+  source300.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','_300.jpg'));
+  picture.appendChild(source300);
+  
+  const source400 = document.createElement('source');
+  source400.setAttribute('media', '(max-width:400px)');
+  source400.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','_400.jpg'));
+  picture.appendChild(source400);
+
+  const source600 = document.createElement('source');
+  source600.setAttribute('media', '(max-width:600px)');
+  source600.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','_600.jpg'));
+  picture.appendChild(source600);
+
+  const source800 = document.createElement('source');
+  source800.setAttribute('media', '(min-width:601px)');
+  source800.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant));
+  picture.appendChild(source800);
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+  picture.appendChild(image);
+  li.append(picture);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;

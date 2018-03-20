@@ -55,9 +55,32 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
-  const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
+  const picture = document.getElementById('restaurant-img');
+
+  const source300 = document.createElement('source');
+  source300.setAttribute('media', '(max-width:300px)');
+  source300.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','_300.jpg'));
+  picture.appendChild(source300);
+  
+  const source400 = document.createElement('source');
+  source400.setAttribute('media', '(max-width:400px)');
+  source400.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','_400.jpg'));
+  picture.appendChild(source400);
+
+  const source600 = document.createElement('source');
+  source600.setAttribute('media', '(max-width:600px)');
+  source600.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','_600.jpg'));
+  picture.appendChild(source600);
+
+  const source800 = document.createElement('source');
+  source800.setAttribute('media', '(min-width:601px)');
+  source800.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant));
+  picture.appendChild(source800);
+
+  const image = document.createElement('img');
+  image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  picture.appendChild(image);
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -117,19 +140,30 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
+  const topDiv = document.createElement('div');
+  topDiv.id = 'review-header';
   const name = document.createElement('p');
+  name.className = 'review-name';
   name.innerHTML = review.name;
-  li.appendChild(name);
-
+  topDiv.appendChild(name);
   const date = document.createElement('p');
+  date.className = 'review-date';
   date.innerHTML = review.date;
-  li.appendChild(date);
+  topDiv.appendChild(date);
+  li.appendChild(topDiv);
+
+
+  const ratingDiv = document.createElement('div');
+  ratingDiv.className = 'review-rating-div';
 
   const rating = document.createElement('p');
+  rating.className = 'review-rating';
   rating.innerHTML = `Rating: ${review.rating}`;
-  li.appendChild(rating);
+  ratingDiv.appendChild(rating);
+  li.appendChild(ratingDiv);
 
   const comments = document.createElement('p');
+  comments.className = 'review-comment';
   comments.innerHTML = review.comments;
   li.appendChild(comments);
 
