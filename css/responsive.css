@@ -1,12 +1,20 @@
-
 #restaurants-list{
     display: flex;
     flex-wrap: wrap;
 }
 #restaurants-list li h1{
-    font-size: 13pt;
+    font-size: 15pt;
     font-weight: bold;
     text-align: center;
+    height: 50px;;
+}
+#restaurants-list p{
+    font-size: 14pt;
+}
+#restaurants-list li a {
+    background-color: #444;
+    font-size: 12pt;
+    
 }
 #restaurants-list li{
     margin-left: auto;

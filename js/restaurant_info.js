@@ -80,6 +80,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.alt = 'Restaurant '.concat(restaurant.name);
   picture.appendChild(image);
 
   const cuisine = document.getElementById('restaurant-cuisine');
@@ -129,8 +130,10 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     return;
   }
   const ul = document.getElementById('reviews-list');
+  let tabindex = 8;
   reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
+    ul.appendChild(createReviewHTML(review, tabindex));
+    tabindex++;
   });
   container.appendChild(ul);
 }
@@ -138,8 +141,9 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 /**
  * Create review HTML and add it to the webpage.
  */
-createReviewHTML = (review) => {
+createReviewHTML = (review, tabindex) => {
   const li = document.createElement('li');
+  li.setAttribute('tabindex',tabindex);
   const topDiv = document.createElement('div');
   topDiv.id = 'review-header';
   const name = document.createElement('p');
@@ -177,6 +181,12 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.innerHTML = restaurant.name;
+  // const a_link = document.createElement('a');
+  // a_link.setAttribute('href', '#');
+  // a_link.setAttribute('aria-current', 'page');
+  // a_link.setAttribute('class', 'current-page')
+  // a_link.innerHTML = restaurant.name;
+  // li.appendChild(a_link);
   breadcrumb.appendChild(li);
 }
 
