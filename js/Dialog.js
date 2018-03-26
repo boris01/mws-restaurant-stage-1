@@ -1,3 +1,4 @@
+//Original code taken from: https://github.com/ireade/accessible-modal-dialog
 function Dialog(dialogEl) {
 
 	this.dialogEl = dialogEl;
