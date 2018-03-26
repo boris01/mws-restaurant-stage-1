@@ -6,6 +6,7 @@
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/modal.css">
   <title>Restaurant Reviews</title>
 </head>
 
@@ -36,27 +37,10 @@
     </section>
   </main>
 
-  <script>
-    if (navigator.serviceWorker) {
-
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('sw.js').then(function (reg) {
-          if (!navigator.serviceWorker.controller) {
-            return;
-          }
-          console.log('ServiceWorker successfuly registerd: ', reg.scope);
-
-        }, function (err) {
-          console.log('ServiceWorker registration failed: ', err);
-        });
-      });
-    }
-  </script>
-
+  <script type="application/javascript" charset="utf-8" src="js/Dialog.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFeL_3upfjewT5kik74_YRMizmEuoBFnU&libraries=places&callback=initMap"></script>
-
 
   <footer id="footer">
     Copyright (c) 2017
@@ -64,7 +48,21 @@
       <strong>Restaurant Reviews</strong>
     </a> All Rights Reserved.
   </footer>
-
+  <div id="openModal" class="modalWindow" role="alertdialog" aria-labelledby="modalHeader" tabindex="-1">
+    <div>
+      <div class="modalHeader">
+        <h2 id="modalHeader">New version available</h2>
+        <div class="modalButtons">
+          <div>
+            <button role="button" aria-label="Refresh application" title="Refresh" id="btnRefresh" class="ok" tabindex="-1">Refresh?</button>
+          </div>
+          <div>
+            <button role="button" aria-label="Dismiss this alert" title="Dismiss" id="btnDismiss" class="cancel" tabindex="-1">Dismiss</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

@@ -1,4 +1,5 @@
-const staticCacheName = 'restaurant-static-v1';
+const staticCacheName = ['restaurant-static-v79'];
+
 
 const pageUrls = [
     '/',
@@ -8,12 +9,14 @@ const pageUrls = [
 const scriptUrls = [
     '/js/dbhelper.js',
     '/js/main.js',
-    '/js/restaurant_info.js'
+    '/js/restaurant_info.js',
+    '/js/Dialog.js'
 ];
 const dataUrls = ['./data/restaurants.json'];
 const stylesUrls = [
     '/css/styles.css',
-    '/css/responsive.css'
+    '/css/responsive.css',
+    'css/modal.css'
 ];
 const imgsUrls = [
     '/img/1.jpg',
@@ -75,34 +78,70 @@ self.addEventListener('install', function (event) {
     );
 });
 
-
-// Delete resources from the cache that is not longer needed (removed from the )
-self.addEventListener('activate', function (event) {
+// Delete resources from the cache that is not longer needed.
+self.addEventListener('activate', event => {
     event.waitUntil(
-        caches.keys().then(function (cacheNames) {
-            return Promise.all(
-                cacheNames.filter(function (cacheName) {
-                    return cacheName.startsWith('restaurant-') &&
-                        !allCaches.includes(cacheName);
-                }).map(function (cacheName) {
-                    return caches.delete(cacheName);
-                })
-            );
+      caches.keys().then(keys => Promise.all(
+        keys.map(key => {
+          if (!staticCacheName.includes(key)) {
+            return caches.delete(key);
+          }
         })
+      )).then(() => {
+        console.log(staticCacheName[0] +' now ready to handle fetches!');
+      })
     );
-});
-
-// self.addEventListener('activate',  event => {
-//     event.waitUntil(self.clients.claim());
-//   });
-
+  });
 
 self.addEventListener('fetch', function (event) {
+
+    if (event.request.url.startsWith('https://maps.googleapis.com/')) {
+        event.respondWith(serveGoogleMap(event));
+        return;
+      }
+
     event.respondWith(
-        caches.match(event.request, {'ignoreSearch': true}).then(function (response) {
-            return response || fetch(event.request);
+        caches.match(event.request, { 'ignoreSearch': true }).then(async response => {
+            if(response) return response;
+          
+            let networkFetchRequest = event.request.clone();
+            return await fetch(networkFetchRequest).then(response =>{
+                if(!response) return response;
+                let cacheResponse = response.clone();
+                caches.open(staticCacheName).then(cache=>{
+                    cache.put(event.request, cacheResponse);
+                });
+                return response;
+            });
         })
-        .catch(err => console.log(err, event.request))
+            .catch(err => console.log(err, event.request))
     );
 });
 
+
+
+self.addEventListener('message', function (event) {
+    if (event.data.action === 'skipWaiting') {
+        self.skipWaiting();
+    this.console.log('Skip waiting');
+    }
+});
+
+function serveGoogleMap(event){
+  return caches.match(event.request).then(async response => {
+        if(response) return response;
+        
+        let networkFetchRequest = event.request.clone();
+        return await fetch(networkFetchRequest).then(response =>{
+            if(!response) return response;
+            let cacheResponse = response.clone();
+            caches.open(staticCacheName).then(cache=>{
+                cache.put(event.request, cacheResponse);
+            });
+            return response;
+        });
+    })
+        .catch((err) =>{ 
+            console.log(err, event.request);
+        })
+}

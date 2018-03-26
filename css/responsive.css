@@ -195,32 +195,6 @@
     #top-container {
         flex-direction: row;
     }
-       /* .inside #map-container {
-  background: blue none repeat scroll 0 0;
-  height: 400px;
-  position: fixed;
-  right: 0;
-  top: 80px;
-  width: 50%;
-}
-.inside #map {
-  background-color: #ccc;
-  height: 100%;
-  width: 100%;
-
-    }
-    #restaurant-address {
-        text-align: left;
-    }
-
-    #restaurant-img {
-        width: 50%;
-    }
-    
-    #restaurant-cuisine {
-        width: 50%;
-    } */
-    
 }
 @media screen and (min-width: 1049px) {
     #restaurants-list li{

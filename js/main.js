@@ -1,8 +1,8 @@
-let restaurants,
+var restaurants,
   neighborhoods,
   cuisines
-var map
-var markers = []
+  var map
+  var markers = []
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -143,25 +143,21 @@ createRestaurantHTML = (restaurant) => {
   picture.setAttribute('role', 'img');
   picture.setAttribute('aria-label', 'restaurant '.concat(restaurant.name));
 
-  const source300 = document.createElement('source');
-  source300.setAttribute('media', '(max-width:300px)');
-  source300.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','_300.jpg'));
-  picture.appendChild(source300);
+ 
+  const source800 = document.createElement('source');
+  source800.setAttribute('media', '(max-width:744px)');
+  source800.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant));
+  picture.appendChild(source800);
   
   const source400 = document.createElement('source');
-  source400.setAttribute('media', '(max-width:400px)');
+  source400.setAttribute('media', '(min-width:745px) and (max-width:1048px)');
   source400.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','_400.jpg'));
   picture.appendChild(source400);
 
-  const source600 = document.createElement('source');
-  source600.setAttribute('media', '(max-width:600px)');
-  source600.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','_600.jpg'));
-  picture.appendChild(source600);
-
-  const source800 = document.createElement('source');
-  source800.setAttribute('media', '(min-width:601px)');
-  source800.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant));
-  picture.appendChild(source800);
+  const source300 = document.createElement('source');
+  source300.setAttribute('media', '(min-width:1049px)');
+  source300.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','_300.jpg'));
+  picture.appendChild(source300);
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
@@ -192,6 +188,8 @@ createRestaurantHTML = (restaurant) => {
   return li
 }
 
+
+
 /**
  * Add markers for current restaurants to the map.
  */
@@ -203,5 +201,77 @@ addMarkersToMap = (restaurants = self.restaurants) => {
       window.location.href = marker.url
     });
     self.markers.push(marker);
+  });
+}
+
+
+/**
+ * Service worker
+ */
+
+(initializeServiceWorker = () => {
+  return new Promise((resolve, reject) => {
+    if (navigator.serviceWorker) {
+
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').then(function (reg) {
+          if (!navigator.serviceWorker.controller) {
+            return;
+          }
+          if (reg.waiting) {
+            console.log('Waiting');
+            _updateReady(reg.waiting);
+            return;
+          }
+
+          if (reg.installing) {
+            console.log('Installing');
+            _trackInstalling(reg.installing);
+
+            return;
+          }
+
+          reg.addEventListener('updatefound', function () {
+            console.log('Update found');
+            _trackInstalling(reg.installing);
+
+          });
+          console.log('ServiceWorker successfuly registerd: ', reg.scope);
+        });
+      }, function (err) {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+
+      // Ensure refresh is only called once.
+      // This works around a bug in "force update on reload".
+      var refreshing;
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        console.log('controllerchange');
+        if (refreshing) return;
+        window.location.reload();
+        refreshing = true;
+      });
+    }
+  });
+})();
+
+function _trackInstalling(worker) {
+  worker.addEventListener('statechange', function () {
+    if (worker.state == 'installed') {
+      _updateReady(worker);
+    }
+  });
+}
+
+function _updateReady(worker) {
+  let modalWindow = document.getElementById('openModal');
+  let refreshBtn = document.getElementById('btnRefresh');
+  let dialog = new Dialog(modalWindow);
+  dialog.addEventListeners('.modalWindow', '.cancel');
+  dialog.open();
+ 
+  refreshBtn.addEventListener('click', function () {
+    worker.postMessage({ action: 'skipWaiting' });
+    refreshBtn.removeEventListener('click', worker.postMessage({ action: 'skipWaiting' }));
   });
 }
