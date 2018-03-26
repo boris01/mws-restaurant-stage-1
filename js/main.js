@@ -220,20 +220,20 @@ addMarkersToMap = (restaurants = self.restaurants) => {
           }
           if (reg.waiting) {
             console.log('Waiting');
-            _updateReady(reg.waiting);
+            updateReady(reg.waiting);
             return;
           }
 
           if (reg.installing) {
             console.log('Installing');
-            _trackInstalling(reg.installing);
+            trackInstalling(reg.installing);
 
             return;
           }
 
           reg.addEventListener('updatefound', function () {
             console.log('Update found');
-            _trackInstalling(reg.installing);
+            trackInstalling(reg.installing);
 
           });
           console.log('ServiceWorker successfuly registerd: ', reg.scope);
@@ -255,15 +255,15 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 })();
 
-function _trackInstalling(worker) {
+function trackInstalling(worker) {
   worker.addEventListener('statechange', function () {
     if (worker.state == 'installed') {
-      _updateReady(worker);
+      updateReady(worker);
     }
   });
 }
 
-function _updateReady(worker) {
+function updateReady(worker) {
   let modalWindow = document.getElementById('openModal');
   let refreshBtn = document.getElementById('btnRefresh');
   let dialog = new Dialog(modalWindow);
