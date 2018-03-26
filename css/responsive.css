@@ -44,7 +44,6 @@
 } 
 
 #restaurant-container {
-    /* width: 100%; */
     margin-left: auto;
     margin-right: auto;
     padding: 2% 5% 3%;
@@ -52,7 +51,8 @@
 #restaurant-name {
     text-align: center;
 }
-#restaurant-img, .restaurant-img  {
+#restaurant-img, 
+.restaurant-img  {
     width: 100%;
 }
 
@@ -92,7 +92,8 @@
     padding: 0 20px;
     align-items: center;
 }
-.review-name, .review-date {
+.review-name, 
+.review-date {
     width: 50%;
     color: white;
     font-size: 1em;
@@ -162,13 +163,13 @@
   
 @media screen and (max-width: 744px) {
     #restaurants-list li{
-        width: 100%
+        width: 100%;
     }
 }
 
 @media screen and (min-width: 745px) {
     #restaurants-list li{
-        width: 40%
+        width: 40%;
     }
 
     nav {
