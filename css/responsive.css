@@ -34,9 +34,17 @@
     display: flex;
     flex-wrap: wrap;
 }
+#breadcrumb {
+    text-align: left;
+}
 
  #breadcrumb li {
     font-size: 12pt;
+    
+}
+.current-page-link {
+   color:#444 !important;
+   text-decoration: underline !important;
 }
  .inside #map-container {
     height: 400px;
@@ -75,7 +83,7 @@
     margin-right: auto;
    
 }
-#reviews-container h2 {
+#reviews-container h3 {
     text-align: center;
 }
 #reviews-list li {
@@ -131,12 +139,10 @@
     margin-bottom: 20px;
 }
 
-
-
 @media screen and (min-width:397px)  { 
     nav {
-        height: 40px;
         padding-top: 10px;
+      
     }
     #breadcrumb li {
         font-size: 14pt;
@@ -174,7 +180,6 @@
 
     nav {
         padding-top: 0px;
-        height: 50px;
     }
     nav h1 a{
         font-size: 24pt;

@@ -1,4 +1,4 @@
-const staticCacheName = ['restaurant-static-v79'];
+const staticCacheName = ['restaurant-static-v80'];
 
 
 const pageUrls = [
@@ -10,7 +10,8 @@ const scriptUrls = [
     '/js/dbhelper.js',
     '/js/main.js',
     '/js/restaurant_info.js',
-    '/js/Dialog.js'
+    '/js/Dialog.js',
+    '/js/swhelper.js'
 ];
 const dataUrls = ['./data/restaurants.json'];
 const stylesUrls = [

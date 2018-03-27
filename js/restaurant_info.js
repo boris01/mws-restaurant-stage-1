@@ -119,7 +119,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
-  const title = document.createElement('h2');
+  const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
@@ -130,7 +130,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     return;
   }
   const ul = document.getElementById('reviews-list');
-  let tabindex = 8;
+  let tabindex = 9;
   reviews.forEach(review => {
     ul.appendChild(createReviewHTML(review, tabindex));
     tabindex++;
@@ -180,7 +180,13 @@ createReviewHTML = (review, tabindex) => {
 fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
-  li.innerHTML = restaurant.name;
+  const ahref = document.createElement('a');
+  ahref.setAttribute('href', '#');
+  ahref.setAttribute('aria-current', 'page');
+  ahref.className =  'current-page-link';
+  ahref.innerHTML = restaurant.name;
+  ahref.tabIndex = 3;
+  li.appendChild(ahref);
   breadcrumb.appendChild(li);
 }
 

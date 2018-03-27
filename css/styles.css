@@ -172,7 +172,6 @@ nav h1 a {
   display: block;
   margin: 0;
   max-width: 100%;
-  min-height: 248px;
   min-width: 100%;
 }
 #restaurants-list li h1 {
@@ -232,7 +231,7 @@ nav h1 a {
   text-transform: uppercase;
 	width: 90%;
 }
-#reviews-container h2 {
+#reviews-container h3 {
   color: #f58500;
   font-size: 24pt;
   font-weight: 300;
