@@ -2,7 +2,7 @@
     display: flex;
     flex-wrap: wrap;
 }
-#restaurants-list li h1{
+#restaurants-list li h2{
     font-size: 15pt;
     font-weight: bold;
     text-align: center;
